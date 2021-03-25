@@ -1,12 +1,11 @@
 package com.example.android_development_project_rdv_manager;
 
-import android.os.Build;
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.RequiresApi;
-
 public class Rdv implements Parcelable {
+
 	private int id;
 	private String title;
 	private String description;
@@ -21,6 +20,10 @@ public class Rdv implements Parcelable {
 		this.description = description;
 		this.date = date;
 		this.done = done;
+	}
+
+	public Rdv(String title, String description, String date) {
+		this(-1, title, description, date, false);
 	}
 
 	public int getId() {
@@ -61,6 +64,19 @@ public class Rdv implements Parcelable {
 
 	public void setDone(boolean done) {
 		this.done = done;
+	}
+
+	@SuppressLint("DefaultLocale") // ?
+	@Override
+	public String toString() {
+		return String.format(
+			"{%d} [%s] %s (%s) - %s",
+			this.id,
+			this.title,
+			this.description,
+			this.date,
+			this.done ? "done" : "not yet"
+		);
 	}
 
 	public Rdv(Parcel parcel) {
