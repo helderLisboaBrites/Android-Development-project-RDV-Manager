@@ -1,7 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Android-Development-project-RDV-Manager</string>
-    <string name="tvNoItems">No items found</string>
-    <string name="add">add</string>
     <string name="tvTitre">Titre</string>
     <string name="tvDate">Date</string>
     <string name="tvTime">Hour</string>
