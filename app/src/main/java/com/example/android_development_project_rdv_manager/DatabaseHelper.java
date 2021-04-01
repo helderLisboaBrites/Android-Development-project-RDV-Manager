@@ -107,4 +107,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		String[] args = {Integer.toString(id)};
 		database.delete(TABLE_NAME, _ID+"=?", args);
 	}
+
+	public Rdv getRdv(int id) {
+		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE};
+		String[] selectionArgs = {Integer.toString(id)};
+
+		Cursor cursor = database.query(
+			TABLE_NAME,
+			projection,
+			_ID+"=?",
+			selectionArgs,
+			null,
+			null,
+			null,
+			null
+		);
+
+		if(cursor == null) {
+			return null;
+		}
+
+		cursor.moveToFirst();
+
+		Rdv rdv = new Rdv(
+			cursor.getInt(cursor.getColumnIndex(_ID)),
+			cursor.getString(cursor.getColumnIndex(TITLE)),
+			cursor.getString(cursor.getColumnIndex(DESCRIPTION)),
+			cursor.getString(cursor.getColumnIndex(DATE)),
+			cursor.getInt(cursor.getColumnIndex(DONE)) != 0
+			);
+
+		return rdv;
+	}
 }
