@@ -13,7 +13,7 @@ class RdvManagerDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rdv_manager_details_activity);
+        setContentView(R.layout.rdv_manager_details);
 
         EditText etTitre =     (EditText) findViewById(R.id.etTitre);
         EditText etDate =      (EditText) findViewById(R.id.etDate);
