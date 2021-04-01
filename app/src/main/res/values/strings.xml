@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Android-Development-project-RDV-Manager</string>
+    <string name="tvNoItems">No items found</string>
+    <string name="add">add</string>
+    <string name="tvTitre">Titre</string>
+    <string name="tvDate">Date</string>
+    <string name="tvTime">Hour</string>
+    <string name="tvContact">Contact</string>
+    <string name="tvAddress">Address</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="tvPhoneNum">Phone Number</string>
+    <string name="tvState">State</string>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tvTitre">Titre</string>
+    <string name="tvDate">Date</string>
+    <string name="tvTime">Hour</string>
+    <string name="tvContact">Contact</string>
+    <string name="tvAddress">Address</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="tvPhoneNum">Phone Number</string>
+    <string name="tvState">State</string>
+</resources>
