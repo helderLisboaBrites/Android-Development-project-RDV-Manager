@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
 
-class RdvListFragment extends ListFragment {
+public class RdvListFragment extends ListFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.add_celebrity:{
                 Intent vIntent = new Intent(this, RdvManagerDetailsActivity.class );
                 vIntent.putExtra("fromAdd",true);
-                startActivity(vIntent);
+                this.startActivity(vIntent);
                 return true;
             }
             default:
