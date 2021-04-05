@@ -70,9 +70,18 @@ public class RdvListFragment extends ListFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // loadData();
+    }
 
+    public void loadData() {
         final String[] from = new String[]{
             DatabaseHelper.TITLE,
             DatabaseHelper.DESCRIPTION,
@@ -106,6 +115,5 @@ public class RdvListFragment extends ListFragment {
         adapter.notifyDataSetChanged();
 
         setListAdapter(adapter);
-
     }
 }

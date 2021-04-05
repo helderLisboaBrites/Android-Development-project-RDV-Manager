@@ -145,8 +145,8 @@ public class RdvManagerDetailsFragment extends Fragment  {
                 Intent main = new Intent(this.getActivity(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(main);
             }else {
-                RdvManagerDetailsFragment fragment1 = (RdvManagerDetailsFragment)getFragmentManager().findFragmentById(R.id.listFragment);
-                fragment.loadData();
+                RdvListFragment fragment1 = (RdvListFragment)getFragmentManager().findFragmentById(R.id.listFragment);
+                fragment1.loadData();
             }
 
 
