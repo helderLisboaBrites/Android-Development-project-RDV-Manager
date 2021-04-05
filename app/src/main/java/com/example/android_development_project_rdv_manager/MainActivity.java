@@ -12,15 +12,34 @@ import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
+    DatabaseHelper database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        database = new DatabaseHelper(this);
+        database.open();
 
-        ListView lvRDV = (ListView) findViewById(R.id.RDVManagerListView);
-        lvRDV.setEmptyView(findViewById(R.id.tvEmpty));
-        registerForContextMenu(lvRDV);
+        feedDatabase();
+    }
+
+    private void feedDatabase() {
+        database.removeAllRdvs();
+
+        Rdv rdv1 = new Rdv("banque", "récupérer chéquier", "2021-03-29 18:30:00");
+        Rdv rdv2 = new Rdv("éducatrice", "agility", "2021-03-27 10:00:00");
+        Rdv rdv3 = new Rdv("dentiste", "dents de sagesses", "2021-05-14 09:30:00");
+
+        database.addRdv(rdv1);
+        database.addRdv(rdv2);
+        database.addRdv(rdv3);
+
+        database.removeRdv(rdv3.getId());
+
+        rdv1.setDone(true);
+        database.updateRdv(rdv1);
     }
 
 
