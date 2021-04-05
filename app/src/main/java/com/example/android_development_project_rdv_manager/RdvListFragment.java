@@ -56,6 +56,7 @@ public class RdvListFragment extends ListFragment {
         else {
             Intent vIntent = new Intent(getActivity(), RdvManagerDetailsActivity.class );
             vIntent.putExtra("fromAdd",false);
+            vIntent.putExtra("rdv_saved",rdv);
             this.startActivity(vIntent);
         }
     }
