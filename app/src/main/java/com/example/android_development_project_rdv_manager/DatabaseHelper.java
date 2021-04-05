@@ -119,8 +119,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		database.update(TABLE_NAME, content, _ID+"=?", args);
 	}
 
-	public void removeRdv(int id) {
-		String[] args = {Integer.toString(id)};
+	public void removeRdv(long id) {
+		String[] args = {Double.toString(id)};
 		database.delete(TABLE_NAME, _ID+"=?", args);
 	}
 

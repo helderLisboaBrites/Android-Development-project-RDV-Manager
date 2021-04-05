@@ -3,6 +3,9 @@ package com.example.android_development_project_rdv_manager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -35,12 +38,6 @@ public class RdvListFragment extends ListFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getListView().setOnItemLongClickListener(new ListView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                return onListItemLongClick(adapterView, view, position, id);
-            }
-        });
     }
 
     @Override
@@ -62,12 +59,7 @@ public class RdvListFragment extends ListFragment {
         }
     }
 
-    public boolean onListItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Rdv rdv = database.getRdv(rdvIds.get(position));
-        Toast.makeText(getActivity(), rdv.getTitle() + " (delete share)", Toast.LENGTH_SHORT).show();
 
-        return true;
-    }
 
     @Override
     public void onResume() {
@@ -78,7 +70,32 @@ public class RdvListFragment extends ListFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        registerForContextMenu(getListView());
+
+
         // loadData();
+    }
+
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu,menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+         super.onContextItemSelected(item);
+        AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        if (item.getItemId()==R.id.delete){
+            database.removeRdv(info.id);
+            loadData();
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     public void loadData() {
