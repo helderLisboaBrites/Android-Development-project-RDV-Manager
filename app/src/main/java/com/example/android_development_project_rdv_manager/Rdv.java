@@ -11,19 +11,23 @@ public class Rdv implements Parcelable {
 	private String description;
 	private String date;
 	private boolean done;
-	// address;
-	// phone;
+	private String contact;
+	private String address;
+	private String phone;
 
-	public Rdv(int id, String title, String description, String date, boolean done) {
+	public Rdv(int id, String title, String description, String date, boolean done, String contact, String address, String phone) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.date = date;
 		this.done = done;
+		this.contact = contact;
+		this.address = address;
+		this.phone = phone;
 	}
 
-	public Rdv(String title, String description, String date) {
-		this(-1, title, description, date, false);
+	public Rdv(String title, String description, String date, String contact) {
+		this(-1, title, description, date, false, contact, "", "");
 	}
 
 	public int getId() {
@@ -66,15 +70,30 @@ public class Rdv implements Parcelable {
 		this.done = done;
 	}
 
+	public String getContact() { return contact; }
+
+	public void setContact(String contact) { this.contact = contact; }
+
+	public String getAddress() { return address; }
+
+	public void setAddress(String address) { this.address = address; }
+
+	public String getPhone() { return phone; }
+
+	public void setPhone(String phone) { this.phone = phone; }
+
 	@SuppressLint("DefaultLocale") // ?
 	@Override
 	public String toString() {
 		return String.format(
-			"{%d} [%s] %s (%s) - %s",
+			"{%d} [%s] %s (%s) (%s) (%s) (%s) - %s",
 			this.id,
 			this.title,
 			this.description,
 			this.date,
+			this.contact,
+			this.address,
+			this.phone,
 			this.done ? "done" : "not yet"
 		);
 	}
@@ -85,6 +104,9 @@ public class Rdv implements Parcelable {
 		this.description = parcel.readString();
 		this.date = parcel.readString();
 		this.done = parcel.readInt() != 0;
+		this.contact = parcel.readString();
+		this.address = parcel.readString();
+		this.phone = parcel.readString();
 	}
 
 	@Override
@@ -99,6 +121,9 @@ public class Rdv implements Parcelable {
 		dest.writeString(this.description);
 		dest.writeString(this.date);
 		dest.writeInt(this.done ? 1 : 0);
+		dest.writeString(this.contact);
+		dest.writeString(this.address);
+		dest.writeString(this.phone);
 	}
 
 	public static final Parcelable.Creator<Rdv> CREATOR = new Parcelable.Creator<Rdv>() {

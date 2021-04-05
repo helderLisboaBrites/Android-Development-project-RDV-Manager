@@ -3,6 +3,7 @@ package com.example.android_development_project_rdv_manager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,15 +23,17 @@ public class MainActivity extends AppCompatActivity {
         database = new DatabaseHelper(this);
         database.open();
 
+
         feedDatabase();
     }
 
     private void feedDatabase() {
+        database.reset();
         database.removeAllRdvs();
 
-        Rdv rdv1 = new Rdv("banque", "récupérer chéquier", "2021-03-29 18:30:00");
-        Rdv rdv2 = new Rdv("éducatrice", "agility", "2021-03-27 10:00:00");
-        Rdv rdv3 = new Rdv("dentiste", "dents de sagesses", "2021-05-14 09:30:00");
+        Rdv rdv1 = new Rdv("banque", "récupérer chéquier", "2021-03-29 18:30:00", "formosa");
+        Rdv rdv2 = new Rdv("éducatrice", "agility", "2021-03-27 10:00:00", "séverine");
+        Rdv rdv3 = new Rdv("dentiste", "dents de sagesses", "2021-05-14 09:30:00", "lemesre");
 
         database.addRdv(rdv1);
         database.addRdv(rdv2);

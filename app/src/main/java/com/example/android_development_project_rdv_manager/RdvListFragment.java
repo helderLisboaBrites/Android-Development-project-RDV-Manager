@@ -1,5 +1,6 @@
 package com.example.android_development_project_rdv_manager;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -50,10 +51,12 @@ public class RdvListFragment extends ListFragment {
         RdvManagerDetailsFragment fragment = (RdvManagerDetailsFragment)getFragmentManager().findFragmentById(R.id.detailFragment);
 
         if(fragment != null && fragment.isInLayout()) {
-            Toast.makeText(getActivity(), "fragment " + rdv.getTitle(), Toast.LENGTH_SHORT).show();
+            // fragment.setRdv(rdv);
         }
         else {
-            Toast.makeText(getActivity(), "new activity " + rdv.getTitle(), Toast.LENGTH_SHORT).show();
+            Intent vIntent = new Intent(getActivity(), RdvManagerDetailsActivity.class );
+            vIntent.putExtra("fromAdd",false);
+            this.startActivity(vIntent);
         }
     }
 
@@ -64,8 +67,6 @@ public class RdvListFragment extends ListFragment {
         return true;
     }
 
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -75,6 +76,9 @@ public class RdvListFragment extends ListFragment {
             DatabaseHelper.DESCRIPTION,
             DatabaseHelper.DATE,
             DatabaseHelper.DONE,
+            DatabaseHelper.CONTACT,
+            DatabaseHelper.ADDRESS,
+            DatabaseHelper.PHONE,
         };
 
         final int[] to = new int[]{
@@ -82,6 +86,9 @@ public class RdvListFragment extends ListFragment {
             R.id.tv_description,
             R.id.tv_date,
             R.id.tv_done,
+            R.id.tv_contact,
+            R.id.tv_address,
+            R.id.tv_phone,
         };
 
         Cursor cursor = database.getAllRdvs();
