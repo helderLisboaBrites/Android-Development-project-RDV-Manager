@@ -15,21 +15,10 @@ public class RdvManagerDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rdv_manager_details);
 
-        EditText etTitre =     (EditText) findViewById(R.id.etTitre);
-        EditText etDate =      (EditText) findViewById(R.id.etDate);
-        EditText etTime =      (EditText) findViewById(R.id.etTime);
-        EditText etContact =   (EditText) findViewById(R.id.etContact);
-        EditText etAddress =   (EditText) findViewById(R.id.etAddress);
-        EditText etPhoneNum =  (EditText) findViewById(R.id.etPhoneNum);
-        Switch switchState =    (Switch)    findViewById(R.id.switchState);
+
 
     }
 
 
-    public void onSaveRdv(View view) {
-    }
 
-    public void onCancelClick(View view) {
-        finish();
-    }
 }

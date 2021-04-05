@@ -12,4 +12,5 @@
     <string name="tvPhoneNum">Phone Number</string>
     <string name="tvState">State</string>
     <string name="delete">Delete</string>
+    <string name="tvDescription">Description</string>
 </resources>
