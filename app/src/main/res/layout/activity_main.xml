@@ -10,9 +10,10 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.example.android_development_project_rdv_manager.RdvListFragment"
-        android:layout_width="208dp"
-        android:layout_height="404dp"
+        android:layout_width="205dp"
+        android:layout_height="396dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
