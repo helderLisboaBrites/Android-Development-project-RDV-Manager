@@ -1,5 +1,7 @@
 package com.example.android_development_project_rdv_manager;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,20 +9,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.Calendar;
+
 public class RdvManagerDetailsFragment extends Fragment  {
 
     private Rdv currentRdv;
     private EditText etTitre ;
-    private EditText etDate ;
-    private EditText etTime ;
+    private Button btDate ;
+    private Button btTime ;
     private EditText etContact ;
     private EditText etAddress ;
     private EditText etPhoneNum ;
@@ -51,8 +57,8 @@ public class RdvManagerDetailsFragment extends Fragment  {
         super.onViewCreated(view, savedInstanceState);
 
         etTitre =     (EditText) view.findViewById(R.id.etTitre);
-        etDate =      (EditText) view.findViewById(R.id.etDate);
-        etTime =      (EditText) view.findViewById(R.id.etTime);
+        btDate =      (Button) view.findViewById(R.id.btDate);
+        btTime =      (Button) view.findViewById(R.id.btTime);
         etContact =   (EditText) view.findViewById(R.id.etContact);
         etAddress =   (EditText) view.findViewById(R.id.etAddress);
         etPhoneNum =  (EditText) view.findViewById(R.id.etPhoneNum);
@@ -78,6 +84,20 @@ public class RdvManagerDetailsFragment extends Fragment  {
             }
         });
 
+        btDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickDate(view);
+            }
+        });
+
+        btTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickTime(view);
+            }
+        });
+
         //switchState.setOnCheckedChangeListener((buttonView, isChecked) -> );
 
         Intent intent = getActivity().getIntent();
@@ -86,11 +106,6 @@ public class RdvManagerDetailsFragment extends Fragment  {
         if (!fromAdd && extras != null) {
             Rdv rdv_saved = (Rdv)extras.getParcelable("rdv_saved");
             setRdv(rdv_saved);
-
-            //etTime.setText(rdv_saved.t);
-            //etContact.setText(rdv_saved.c);
-            //etAddress.setText(rdv_saved.);
-            //etPhoneNum.setText(rdv_saved.);
         }
     }
 
@@ -106,7 +121,8 @@ public class RdvManagerDetailsFragment extends Fragment  {
     public void setRdv(Rdv rdv_saved) {
         this.currentRdv = rdv_saved;
         etTitre.setText(rdv_saved.getTitle());
-        etDate.setText(rdv_saved.getDate());
+        btDate.setText(rdv_saved.getDate());
+        btTime.setText(rdv_saved.getTime());
         etDescription.setText(rdv_saved.getDescription());
 
         etContact.setText(rdv_saved.getContact());
@@ -117,14 +133,12 @@ public class RdvManagerDetailsFragment extends Fragment  {
 
     }
 
-
-
     private void onSaveRdv() {
         Log.d(TAG,"onSaveRdv");
         String id;
         String title = etTitre.getText().toString();
         String description = etDescription.getText().toString();
-        String date = etDate.getText().toString() +" " + etTime.getText().toString();
+        String date = btDate.getText().toString() + " " + btTime.getText().toString();
         String contact = etContact.getText().toString();
         String address = etAddress.getText().toString();
         String phoneNum = etPhoneNum.getText().toString();
@@ -156,6 +170,63 @@ public class RdvManagerDetailsFragment extends Fragment  {
 
     private void onCancelRdv() {
 
+    }
+
+    public void pickDate(View view){
+        showDatePicker();
+    }
+
+    private void showDatePicker() {
+
+        DatePickerFragment date = new DatePickerFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("year", currentRdv.getDateYear());
+        args.putInt("month", currentRdv.getDateMonth() - 1);
+        args.putInt("day", currentRdv.getDateDay());
+
+        date.setArguments(args);
+        date.setCallBack(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                RdvManagerDetailsFragment.this.onDateSet(datePicker, year, month, day);
+            }
+        });
+
+        date.show(getActivity().getSupportFragmentManager(),"Date Picker");
+    }
+
+    public void onDateSet(DatePicker view, int hour, int minute, int second) {
+        currentRdv.setDate(hour, minute, second);
+        btDate.setText(currentRdv.getDate());
+    }
+
+    public void pickTime(View view){
+        showTimePicker();
+    }
+
+    private void showTimePicker() {
+
+        TimePickerFragment time = new TimePickerFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("hour", currentRdv.getTimeHour());
+        args.putInt("minute", currentRdv.getTimeMinute());
+
+        time.setArguments(args);
+        time.setCallBack(new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                RdvManagerDetailsFragment.this.onTimeSet(timePicker, hour, minute);
+            }
+        });
+
+        time.show(getActivity().getSupportFragmentManager(),"Time Picker");
+    }
+
+    public void onTimeSet(TimePicker view, int hour, int minute) {
+        currentRdv.setTime(hour, minute);
+        btTime.setText(currentRdv.getTime());
     }
 
 

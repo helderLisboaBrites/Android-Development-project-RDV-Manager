@@ -77,7 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		content.put(TITLE, rdv.getTitle());
 		content.put(DESCRIPTION, rdv.getDescription());
-		content.put(DATE, rdv.getDate());
+		content.put(DATE, rdv.getDatetime());
 		content.put(DONE, rdv.isDone());
 		content.put(CONTACT, rdv.getContact());
 		content.put(ADDRESS, rdv.getAddress());

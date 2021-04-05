@@ -3,31 +3,32 @@ package com.example.android_development_project_rdv_manager;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class Rdv implements Parcelable {
 
 	private int id;
 	private String title;
 	private String description;
-	private String date;
+	private String datetime;
 	private boolean done;
 	private String contact;
 	private String address;
 	private String phone;
 
-	public Rdv(int id, String title, String description, String date, boolean done, String contact, String address, String phone) {
+	public Rdv(int id, String title, String description, String datetime, boolean done, String contact, String address, String phone) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.date = date;
+		this.datetime = datetime;
 		this.done = done;
 		this.contact = contact;
 		this.address = address;
 		this.phone = phone;
 	}
 
-	public Rdv(String title, String description, String date, String contact) {
-		this(-1, title, description, date, false, contact, "", "");
+	public Rdv(String title, String description, String datetime, String contact) {
+		this(-1, title, description, datetime, false, contact, "", "");
 	}
 
 	public int getId() {
@@ -54,12 +55,45 @@ public class Rdv implements Parcelable {
 		this.description = description;
 	}
 
-	public String getDate() {
-		return date;
+	public String getDatetime() {
+		return datetime;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setDatetime(int year, int month, int day, int hour, int minute, int second) {
+		this.datetime = String.format("%d-%d-%d %d:%d:%d", year, month, day, hour, minute, second);
+	}
+	
+	public String getDate() {
+		return datetime.substring(0, 10);
+	}
+	public int getDateYear() {
+		return Integer.parseInt(datetime.substring(0, 4));
+	}
+	public int getDateMonth() {
+		return Integer.parseInt(datetime.substring(5, 7));
+	}
+	public int getDateDay() {
+		return Integer.parseInt(datetime.substring(8, 10));
+	}
+
+
+	public void setDate(int year, int month, int day) {
+		this.datetime = String.format("%4d-%02d-%02d %s", year, month, day, getTime());
+	}
+	
+	public String getTime() {
+		Log.d("DEBUGTIME", datetime);
+		return datetime.substring(11);
+	}
+	public int getTimeHour() {
+		return Integer.parseInt(datetime.substring(11, 13));
+	}
+	public int getTimeMinute() {
+		return Integer.parseInt(datetime.substring(14, 16));
+	}
+
+	public void setTime(int hour, int minute) {
+		this.datetime = String.format("%s %02d:%02d:00", getDate(), hour, minute);
 	}
 
 	public boolean isDone() {
@@ -90,7 +124,7 @@ public class Rdv implements Parcelable {
 			this.id,
 			this.title,
 			this.description,
-			this.date,
+			this.datetime,
 			this.contact,
 			this.address,
 			this.phone,
@@ -102,7 +136,7 @@ public class Rdv implements Parcelable {
 		this.id = parcel.readInt();
 		this.title = parcel.readString();
 		this.description = parcel.readString();
-		this.date = parcel.readString();
+		this.datetime = parcel.readString();
 		this.done = parcel.readInt() != 0;
 		this.contact = parcel.readString();
 		this.address = parcel.readString();
@@ -119,7 +153,7 @@ public class Rdv implements Parcelable {
 		dest.writeInt(this.id);
 		dest.writeString(this.title);
 		dest.writeString(this.description);
-		dest.writeString(this.date);
+		dest.writeString(this.datetime);
 		dest.writeInt(this.done ? 1 : 0);
 		dest.writeString(this.contact);
 		dest.writeString(this.address);

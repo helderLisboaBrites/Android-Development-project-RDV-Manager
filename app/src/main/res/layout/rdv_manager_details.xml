@@ -56,14 +56,14 @@
             android:layout_height="wrap_content"
             android:text="@string/tvDate" />
 
-        <EditText
-            android:id="@+id/etDate"
+        <Button
+            android:id="@+id/btDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_span="3"
-            android:ems="10"
-            android:inputType="date"
-            />
+            android:backgroundTint="#B4E1A9"
+            android:ems="10" />
+
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
@@ -75,14 +75,13 @@
             android:layout_height="wrap_content"
             android:text="@string/tvTime" />
 
-        <EditText
-            android:id="@+id/etTime"
+        <Button
+            android:id="@+id/btTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_span="3"
-            android:ems="10"
-            android:inputType="time"
-            />
+            android:backgroundTint="#B4E1A9"
+            android:ems="10" />
     </TableRow>
 
 
