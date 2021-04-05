@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class RdvManagerDetailsFragment extends Fragment {
+public class RdvManagerDetailsFragment extends Fragment implements View.OnClickListener {
 
     private Rdv currentRdv;
     private EditText etTitre ;
@@ -46,10 +46,9 @@ public class RdvManagerDetailsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.rdv_manager_details, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         etTitre =     (EditText) view.findViewById(R.id.etTitre);
         etDate =      (EditText) view.findViewById(R.id.etDate);
@@ -62,14 +61,7 @@ public class RdvManagerDetailsFragment extends Fragment {
         btSave = (Button) view.findViewById(R.id.button_save);
         btCancel = (Button) view.findViewById(R.id.button_cancel);
 
-        btSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("--------------------------------------------------------------");
-                Log.d(TAG,"onSaveRdv");
-                onSaveRdv();
-            }
-        });
+        btSave.setOnClickListener(this);
 
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +78,6 @@ public class RdvManagerDetailsFragment extends Fragment {
         Bundle extras = intent.getExtras();
         if (!fromAdd && extras != null) {
             Rdv rdv_saved = (Rdv)extras.getParcelable("rdv_saved");
-            this.currentRdv = rdv_saved;
             setRdv(rdv_saved);
 
             //etTime.setText(rdv_saved.t);
@@ -94,14 +85,29 @@ public class RdvManagerDetailsFragment extends Fragment {
             //etAddress.setText(rdv_saved.);
             //etPhoneNum.setText(rdv_saved.);
         }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.rdv_manager_details, container, false);
+
         return view;
 
     }
 
     public void setRdv(Rdv rdv_saved) {
+        this.currentRdv = rdv_saved;
         etTitre.setText(rdv_saved.getTitle());
         etDate.setText(rdv_saved.getDate());
         etDescription.setText(rdv_saved.getDescription());
+
+        etContact.setText(rdv_saved.getContact());
+        etAddress.setText(rdv_saved.getAddress());
+        etPhoneNum.setText(rdv_saved.getPhone());
+        switchState.isChecked();
+
+
     }
 
 
@@ -118,15 +124,11 @@ public class RdvManagerDetailsFragment extends Fragment {
         boolean done = switchState.isChecked();
 
         if(fromAdd){
-            currentRdv = new Rdv(-1, title,
-                                description,
-                                date,
-                                done,
-                                contact,
-                                address,
-                                phoneNum);
+            currentRdv = new Rdv(-1, title,description,date,done,contact,address,phoneNum);
 
             database.addRdv(currentRdv);
+            Intent main = new Intent(this.getActivity(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(main);
 
         }else{
             currentRdv.setTitle(title);
@@ -135,11 +137,17 @@ public class RdvManagerDetailsFragment extends Fragment {
             database.updateRdv(currentRdv);
 
         }
-        Intent main = new Intent(this.getActivity(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(main);
+
     }
 
     private void onCancelRdv() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+                System.out.println("--------------------------------------------------------------");
+                Log.d(TAG,"onSaveRdv");
+                onSaveRdv();
     }
 }
