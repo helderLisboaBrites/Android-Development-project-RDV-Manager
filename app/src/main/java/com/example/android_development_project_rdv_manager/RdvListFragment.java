@@ -51,7 +51,7 @@ public class RdvListFragment extends ListFragment {
         RdvManagerDetailsFragment fragment = (RdvManagerDetailsFragment)getFragmentManager().findFragmentById(R.id.detailFragment);
 
         if(fragment != null && fragment.isInLayout()) {
-            // fragment.setRdv(rdv);
+             fragment.setRdv(rdv);
         }
         else {
             Intent vIntent = new Intent(getActivity(), RdvManagerDetailsActivity.class );

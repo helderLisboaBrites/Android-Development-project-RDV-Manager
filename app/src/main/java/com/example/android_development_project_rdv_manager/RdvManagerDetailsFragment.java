@@ -79,6 +79,8 @@ public class RdvManagerDetailsFragment extends Fragment {
             }
         });
 
+        //switchState.setOnCheckedChangeListener((buttonView, isChecked) -> );
+
         Intent intent = getActivity().getIntent();
         fromAdd = intent.getBooleanExtra("fromAdd",false);
         Bundle extras = intent.getExtras();
@@ -96,7 +98,7 @@ public class RdvManagerDetailsFragment extends Fragment {
 
     }
 
-    private void setRdv(Rdv rdv_saved) {
+    public void setRdv(Rdv rdv_saved) {
         etTitre.setText(rdv_saved.getTitle());
         etDate.setText(rdv_saved.getDate());
         etDescription.setText(rdv_saved.getDescription());
@@ -109,12 +111,20 @@ public class RdvManagerDetailsFragment extends Fragment {
         String id;
         String title = etTitre.getText().toString();
         String description = etDescription.getText().toString();
-        String date = etDate.getText().toString();
-        boolean done;
+        String date = etDate.getText().toString() +" " + etTime.getText().toString();
+        String contact = etContact.getText().toString();
+        String address = etAddress.getText().toString();
+        String phoneNum = etPhoneNum.getText().toString();
+        boolean done = switchState.isChecked();
+
         if(fromAdd){
-            currentRdv = new Rdv(title,
+            currentRdv = new Rdv(-1, title,
                                 description,
-                                date   /*, etTime, etContact, etAddress, etPhoneNum, etDescriptio, switchState*/);
+                                date,
+                                done,
+                                contact,
+                                address,
+                                phoneNum);
 
             database.addRdv(currentRdv);
 
