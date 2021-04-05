@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <fragment
-        android:id="@+id/activity_details"
+        android:id="@+id/activity_details_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class = "com.example.android_development_project_rdv_manager.RdvManagerDetailsFragment">

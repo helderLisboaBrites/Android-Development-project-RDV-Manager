@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class RdvManagerDetailsFragment extends Fragment implements View.OnClickListener {
+public class RdvManagerDetailsFragment extends Fragment  {
 
     private Rdv currentRdv;
     private EditText etTitre ;
@@ -61,7 +61,14 @@ public class RdvManagerDetailsFragment extends Fragment implements View.OnClickL
         btSave = (Button) view.findViewById(R.id.button_save);
         btCancel = (Button) view.findViewById(R.id.button_cancel);
 
-        btSave.setOnClickListener(this);
+        btSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("--------------------------------------------------------------");
+                Log.d(TAG,"onSaveRdv");
+                onSaveRdv();
+            }
+        });
 
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,18 +130,25 @@ public class RdvManagerDetailsFragment extends Fragment implements View.OnClickL
         String phoneNum = etPhoneNum.getText().toString();
         boolean done = switchState.isChecked();
 
-        if(fromAdd){
-            currentRdv = new Rdv(-1, title,description,date,done,contact,address,phoneNum);
+        if(fromAdd){ // pour ajouter un rdv
+                currentRdv = new Rdv(-1, title,description,date,done,contact,address,phoneNum);
 
             database.addRdv(currentRdv);
             Intent main = new Intent(this.getActivity(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(main);
 
-        }else{
-            currentRdv.setTitle(title);
-            currentRdv.setDescription(description);
-            currentRdv.setDate(date);
+        }else{// pour modifier un rdv
+            currentRdv = new Rdv(currentRdv.getId(), title,description,date,done,contact,address,phoneNum);
             database.updateRdv(currentRdv);
+            RdvManagerDetailsFragment fragment = (RdvManagerDetailsFragment)getFragmentManager().findFragmentById(R.id.activity_details_fragment);
+            if(fragment != null && fragment.isInLayout()) {// si on est en portrait
+                Intent main = new Intent(this.getActivity(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(main);
+            }else {
+                RdvManagerDetailsFragment fragment1 = (RdvManagerDetailsFragment)getFragmentManager().findFragmentById(R.id.listFragment);
+                fragment.loadData();
+            }
+
 
         }
 
@@ -144,10 +158,5 @@ public class RdvManagerDetailsFragment extends Fragment implements View.OnClickL
 
     }
 
-    @Override
-    public void onClick(View v) {
-                System.out.println("--------------------------------------------------------------");
-                Log.d(TAG,"onSaveRdv");
-                onSaveRdv();
-    }
+
 }

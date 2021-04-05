@@ -28,6 +28,7 @@ public class RdvListFragment extends ListFragment {
         database = new DatabaseHelper(getActivity());
         database.open();
 
+
     }
 
     @Override
