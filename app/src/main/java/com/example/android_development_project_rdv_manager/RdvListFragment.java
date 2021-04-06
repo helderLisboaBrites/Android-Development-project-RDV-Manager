@@ -2,17 +2,16 @@ package com.example.android_development_project_rdv_manager;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -98,6 +97,16 @@ public class RdvListFragment extends ListFragment {
             loadData();
             return true;
         }
+        else if (item.getItemId()==R.id.itemShare){
+            database.removeRdv(info.id);
+            loadData();
+            return true;
+        }
+        else if (item.getItemId()==R.id.itemGoogleMaps){
+            TextView tv = (TextView)info.targetView.findViewById(R.id.tv_address);
+            launchMaps(tv.getText().toString());
+            return true;
+        }
         return super.onContextItemSelected(item);
     }
 
@@ -136,4 +145,16 @@ public class RdvListFragment extends ListFragment {
 
         setListAdapter(adapter);
     }
+
+    public void launchMaps(String address) {
+        String map = "http://maps.google.co.in/maps?q=" +address ;
+        Uri gmmIntentUri = Uri.parse(map);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
+    }
+
+
 }

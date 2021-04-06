@@ -5,6 +5,15 @@
             android:id="@+id/delete"
             android:title="@string/delete"
             >
-
+        </item>
+        <item
+            android:id="@+id/itemShare"
+            android:title="@string/itemShare"
+            >
+        </item>
+        <item
+            android:id="@+id/itemGoogleMaps"
+            android:title="@string/itemGoogleMaps"
+            >
         </item>
 </menu>
