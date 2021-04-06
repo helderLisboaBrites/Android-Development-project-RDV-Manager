@@ -3,6 +3,7 @@ package com.example.android_development_project_rdv_manager;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.icu.util.ULocale;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalField;
 import java.util.Calendar;
 
 public class RdvManagerDetailsFragment extends Fragment  {
@@ -98,6 +101,7 @@ public class RdvManagerDetailsFragment extends Fragment  {
             }
         });
 
+
         //switchState.setOnCheckedChangeListener((buttonView, isChecked) -> );
 
         Intent intent = getActivity().getIntent();
@@ -123,38 +127,40 @@ public class RdvManagerDetailsFragment extends Fragment  {
     public void setRdv(Rdv rdv_saved) {
         this.currentRdv = rdv_saved;
         etTitre.setText(rdv_saved.getTitle());
-        btDate.setText(rdv_saved.getDate());
-        btTime.setText(rdv_saved.getTime());
+        btDate.setText(rdv_saved.getDateString());
+        btTime.setText(rdv_saved.getTimeString());
         etDescription.setText(rdv_saved.getDescription());
 
         etContact.setText(rdv_saved.getContact());
         etAddress.setText(rdv_saved.getAddress());
         etPhoneNum.setText(rdv_saved.getPhone());
         switchState.isChecked();
-
-
     }
 
     private void onSaveRdv() {
         Log.d(TAG,"onSaveRdv");
-        String id;
         String title = etTitre.getText().toString();
         String description = etDescription.getText().toString();
-        String date = btDate.getText().toString() + " " + btTime.getText().toString();
+        String date = btDate.getText().toString() + " " + btTime.getText();
         String contact = etContact.getText().toString();
         String address = etAddress.getText().toString();
         String phoneNum = etPhoneNum.getText().toString();
         boolean done = switchState.isChecked();
 
-        if(fromAdd){ // pour ajouter un rdv
-                currentRdv = new Rdv(-1, title,description,date,done,contact,address,phoneNum);
+        currentRdv.setTitle(title);
+        currentRdv.setDescription(description);
+        // date auto
+        currentRdv.setContact(contact);
+        currentRdv.setAddress(address);
+        currentRdv.setPhone(phoneNum);
+        currentRdv.setDone(done);
 
+        if(fromAdd){ // pour ajouter un rdv
             database.addRdv(currentRdv);
             Intent main = new Intent(this.getActivity(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(main);
 
         }else{// pour modifier un rdv
-            currentRdv = new Rdv(currentRdv.getId(), title,description,date,done,contact,address,phoneNum);
             database.updateRdv(currentRdv);
             RdvManagerDetailsFragment fragment = (RdvManagerDetailsFragment)getFragmentManager().findFragmentById(R.id.activity_details_fragment);
             if(fragment != null && fragment.isInLayout()) {// si on est en portrait
@@ -183,9 +189,9 @@ public class RdvManagerDetailsFragment extends Fragment  {
         DatePickerFragment date = new DatePickerFragment();
 
         Bundle args = new Bundle();
-            args.putInt("year", currentRdv.getDateYear());
-            args.putInt("month", currentRdv.getDateMonth() - 1);
-            args.putInt("day", currentRdv.getDateDay());
+            args.putInt("year", currentRdv.getDatetime().getYear());
+            args.putInt("month", currentRdv.getDatetime().getMonthValue() - 1);
+            args.putInt("day", currentRdv.getDatetime().getDayOfMonth());
 
 
         date.setArguments(args);
@@ -201,7 +207,7 @@ public class RdvManagerDetailsFragment extends Fragment  {
 
     public void onDateSet(DatePicker view, int hour, int minute, int second) {
         currentRdv.setDate(hour, minute, second);
-        btDate.setText(currentRdv.getDate());
+        btDate.setText(currentRdv.getDateString());
     }
 
     public void pickTime(View view){
@@ -213,8 +219,8 @@ public class RdvManagerDetailsFragment extends Fragment  {
         TimePickerFragment time = new TimePickerFragment();
 
         Bundle args = new Bundle();
-            args.putInt("hour", currentRdv.getTimeHour());
-            args.putInt("minute", currentRdv.getTimeMinute());
+            args.putInt("hour", currentRdv.getDatetime().getHour());
+            args.putInt("minute", currentRdv.getDatetime().getMinute());
 
         time.setArguments(args);
         time.setCallBack(new TimePickerDialog.OnTimeSetListener() {
@@ -229,7 +235,7 @@ public class RdvManagerDetailsFragment extends Fragment  {
 
     public void onTimeSet(TimePicker view, int hour, int minute) {
         currentRdv.setTime(hour, minute);
-        btTime.setText(currentRdv.getTime());
+        btTime.setText(currentRdv.getTimeString());
     }
 
 

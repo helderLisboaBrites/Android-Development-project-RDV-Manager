@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class Rdv implements Parcelable {
@@ -12,37 +14,30 @@ public class Rdv implements Parcelable {
 	private int id;
 	private String title;
 	private String description;
-	private String datetime;
+	private LocalDateTime datetime;
 	private boolean done;
 	private String contact;
 	private String address;
 	private String phone;
 
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 	public Rdv(int id, String title, String description, String datetime, boolean done, String contact, String address, String phone) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.datetime = datetime;
+		this.datetime = LocalDateTime.parse(datetime, formatter);
 		this.done = done;
 		this.contact = contact;
 		this.address = address;
 		this.phone = phone;
 	}
 
-	public Rdv(String title, String description, String datetime, String contact) {
-		this(-1, title, description, datetime, false, contact, "", "");
-	}
 	public Rdv (){
-		this("", "", "", "");
-		final Calendar c = Calendar.getInstance();
-		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
-		int day = c.get(Calendar.DAY_OF_MONTH);
-		int hours = c.get(Calendar.HOUR_OF_DAY);
-		int minutes = c.get(Calendar.MINUTE);
-		setDatetime(year, month, day, hours, minutes);
+		this(-1, "", "", LocalDateTime.now().format(formatter), false, "", "", "");
 
 	};
+
 	public int getId() {
 		return id;
 	}
@@ -67,45 +62,36 @@ public class Rdv implements Parcelable {
 		this.description = description;
 	}
 
-	public String getDatetime() {
+	public LocalDateTime getDatetime() {
 		return datetime;
 	}
 
-	public void setDatetime(int year, int month, int day, int hour, int minute) {
-		this.datetime = String.format("%04d-%02d-%02d %02d:%02d:00", year, month, day, hour, minute);
-	}
-	
-	public String getDate() {
-		return datetime.substring(0, 10);
-	}
-	public int getDateYear() {
-		return Integer.parseInt(datetime.substring(0, 4));
-	}
-	public int getDateMonth() {
-		return Integer.parseInt(datetime.substring(5, 7));
-	}
-	public int getDateDay() {
-		return Integer.parseInt(datetime.substring(8, 10));
+	public String getDatetimeString() {
+		return datetime.format(formatter);
 	}
 
+	public String getDateString() {
+		return datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	}
+
+	public String getTimeString() {
+		return datetime.format(DateTimeFormatter.ofPattern("HH:mm"));
+	}
+
+	public void setDatetime(LocalDateTime datetime) {
+		this.datetime = datetime;
+	}
+
+	public void setDatetimeString(String datetime) {
+		this.datetime = LocalDateTime.parse(datetime, formatter);
+	}
 
 	public void setDate(int year, int month, int day) {
-		this.datetime = String.format("%4d-%02d-%02d %s", year, month, day, getTime());
-	}
-	
-	public String getTime() {
-		Log.d("DEBUGTIME", datetime);
-		return datetime.substring(11);
-	}
-	public int getTimeHour() {
-		return Integer.parseInt(datetime.substring(11, 13));
-	}
-	public int getTimeMinute() {
-		return Integer.parseInt(datetime.substring(14, 16));
+		this.datetime = LocalDateTime.of(year, month, day, datetime.getHour(), datetime.getMinute());
 	}
 
 	public void setTime(int hour, int minute) {
-		this.datetime = String.format("%s %02d:%02d:00", getDate(), hour, minute);
+		this.datetime = LocalDateTime.of(datetime.getYear(), datetime.getMonthValue(), datetime.getDayOfMonth(), hour, minute);
 	}
 
 	public boolean isDone() {
@@ -136,7 +122,7 @@ public class Rdv implements Parcelable {
 			this.id,
 			this.title,
 			this.description,
-			this.datetime,
+			this.datetime.toString(),
 			this.contact,
 			this.address,
 			this.phone,
@@ -148,7 +134,7 @@ public class Rdv implements Parcelable {
 		this.id = parcel.readInt();
 		this.title = parcel.readString();
 		this.description = parcel.readString();
-		this.datetime = parcel.readString();
+		this.datetime = LocalDateTime.parse(parcel.readString());
 		this.done = parcel.readInt() != 0;
 		this.contact = parcel.readString();
 		this.address = parcel.readString();
@@ -165,7 +151,7 @@ public class Rdv implements Parcelable {
 		dest.writeInt(this.id);
 		dest.writeString(this.title);
 		dest.writeString(this.description);
-		dest.writeString(this.datetime);
+		dest.writeString(this.datetime.toString());
 		dest.writeInt(this.done ? 1 : 0);
 		dest.writeString(this.contact);
 		dest.writeString(this.address);

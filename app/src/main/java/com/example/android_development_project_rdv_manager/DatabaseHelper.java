@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.time.LocalDateTime;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private SQLiteDatabase database;
 
@@ -77,7 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		content.put(TITLE, rdv.getTitle());
 		content.put(DESCRIPTION, rdv.getDescription());
-		content.put(DATE, rdv.getDatetime());
+		content.put(DATE, rdv.getDatetimeString());
 		content.put(DONE, rdv.isDone());
 		content.put(CONTACT, rdv.getContact());
 		content.put(ADDRESS, rdv.getAddress());
