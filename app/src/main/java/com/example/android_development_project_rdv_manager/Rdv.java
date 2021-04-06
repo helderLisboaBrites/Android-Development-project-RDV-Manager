@@ -132,8 +132,8 @@ public class Rdv implements Parcelable {
 	@Override
 	public String toString() {
 		return String.format(
-			"{%d} [%s] %s (%s) (%s) (%s) (%s) - %s",
-			this.id,
+			"Titre :%s\nDescription : %s\nDate : %s\nContact : %s \nAddress : %s\nTel : %s\nEtat :%s",
+
 			this.title,
 			this.description,
 			this.datetime,

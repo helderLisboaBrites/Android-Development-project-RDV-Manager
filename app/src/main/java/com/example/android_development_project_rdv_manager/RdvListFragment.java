@@ -98,8 +98,8 @@ public class RdvListFragment extends ListFragment {
             return true;
         }
         else if (item.getItemId()==R.id.itemShare){
-            database.removeRdv(info.id);
-            loadData();
+            Rdv rdv = database.getRdv(info.id);
+            shareMethod(rdv);
             return true;
         }
         else if (item.getItemId()==R.id.itemGoogleMaps){
@@ -156,5 +156,13 @@ public class RdvListFragment extends ListFragment {
         }
     }
 
+
+    public void shareMethod(Rdv rdv) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, rdv.toString());
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, "Share App")) ;
+    }
 
 }
