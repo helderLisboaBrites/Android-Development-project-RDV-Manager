@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import java.util.Calendar;
+
 public class Rdv implements Parcelable {
 
 	private int id;
@@ -30,7 +32,17 @@ public class Rdv implements Parcelable {
 	public Rdv(String title, String description, String datetime, String contact) {
 		this(-1, title, description, datetime, false, contact, "", "");
 	}
+	public Rdv (){
+		this("", "", "", "");
+		final Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		int hours = c.get(Calendar.HOUR_OF_DAY);
+		int minutes = c.get(Calendar.MINUTE);
+		setDatetime(year, month, day, hours, minutes);
 
+	};
 	public int getId() {
 		return id;
 	}
@@ -59,8 +71,8 @@ public class Rdv implements Parcelable {
 		return datetime;
 	}
 
-	public void setDatetime(int year, int month, int day, int hour, int minute, int second) {
-		this.datetime = String.format("%d-%d-%d %d:%d:%d", year, month, day, hour, minute, second);
+	public void setDatetime(int year, int month, int day, int hour, int minute) {
+		this.datetime = String.format("%04d-%02d-%02d %02d:%02d:00", year, month, day, hour, minute);
 	}
 	
 	public String getDate() {

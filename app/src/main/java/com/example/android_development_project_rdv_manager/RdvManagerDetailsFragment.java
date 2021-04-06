@@ -106,6 +106,8 @@ public class RdvManagerDetailsFragment extends Fragment  {
         if (!fromAdd && extras != null) {
             Rdv rdv_saved = (Rdv)extras.getParcelable("rdv_saved");
             setRdv(rdv_saved);
+        }else{
+            setRdv(new Rdv());
         }
     }
 
@@ -181,9 +183,10 @@ public class RdvManagerDetailsFragment extends Fragment  {
         DatePickerFragment date = new DatePickerFragment();
 
         Bundle args = new Bundle();
-        args.putInt("year", currentRdv.getDateYear());
-        args.putInt("month", currentRdv.getDateMonth() - 1);
-        args.putInt("day", currentRdv.getDateDay());
+            args.putInt("year", currentRdv.getDateYear());
+            args.putInt("month", currentRdv.getDateMonth() - 1);
+            args.putInt("day", currentRdv.getDateDay());
+
 
         date.setArguments(args);
         date.setCallBack(new DatePickerDialog.OnDateSetListener() {
@@ -210,8 +213,8 @@ public class RdvManagerDetailsFragment extends Fragment  {
         TimePickerFragment time = new TimePickerFragment();
 
         Bundle args = new Bundle();
-        args.putInt("hour", currentRdv.getTimeHour());
-        args.putInt("minute", currentRdv.getTimeMinute());
+            args.putInt("hour", currentRdv.getTimeHour());
+            args.putInt("minute", currentRdv.getTimeMinute());
 
         time.setArguments(args);
         time.setCallBack(new TimePickerDialog.OnTimeSetListener() {

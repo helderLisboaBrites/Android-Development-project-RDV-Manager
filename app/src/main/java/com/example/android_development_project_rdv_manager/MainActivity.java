@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         database.open();
 
 
-        // feedDatabase();
+         //feedDatabase();
     }
 
     private void feedDatabase() {
