@@ -126,9 +126,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		database.delete(TABLE_NAME, _ID+"=?", args);
 	}
 
-	public Rdv getRdv(int id) {
+	public Rdv getRdv(long id) {
 		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE};
-		String[] selectionArgs = {Integer.toString(id)};
+		String[] selectionArgs = {Double.toString(id)};
 
 		Cursor cursor = database.query(
 			TABLE_NAME,

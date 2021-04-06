@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_span="3"
             android:ems="10"
-            android:inputType="date"
+            android:inputType="text"
             />
     </TableRow>
     <TableRow
@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_span="3"
             android:ems="10"
-            android:inputType="date"
+            android:inputType="text"
             />
     </TableRow>
     <TableRow
