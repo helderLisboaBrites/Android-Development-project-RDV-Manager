@@ -217,6 +217,7 @@ public class RdvManagerDetailsFragment extends Fragment{
     }
 
     private void onCancelRdv() {
+        getActivity().finish();
 
     }
 
@@ -321,7 +322,7 @@ public class RdvManagerDetailsFragment extends Fragment{
                         String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
                     String hasPhone =
                       c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-
+                        String name = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
                     if (hasPhone.equalsIgnoreCase("1"))
                     {
                       Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
@@ -329,6 +330,7 @@ public class RdvManagerDetailsFragment extends Fragment{
                       phones.moveToFirst();
                       String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                       etPhoneNum.setText(cNumber);
+                      etContact.setText(name);
                     }
                     }
 
