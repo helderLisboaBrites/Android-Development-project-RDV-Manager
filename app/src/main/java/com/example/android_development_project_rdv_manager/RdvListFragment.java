@@ -107,6 +107,13 @@ public class RdvListFragment extends ListFragment {
             launchMaps(tv.getText().toString());
             return true;
         }
+        else if (item.getItemId()==R.id.itemCall){
+            Rdv rdv = database.getRdv(info.id);
+            if(!rdv.getPhone().equals("")){
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+rdv.getPhone())));
+            }
+            return true;
+        }
         return super.onContextItemSelected(item);
     }
 
@@ -115,20 +122,20 @@ public class RdvListFragment extends ListFragment {
             DatabaseHelper.TITLE,
             DatabaseHelper.DESCRIPTION,
             DatabaseHelper.DATE,
-            DatabaseHelper.DONE,
-            DatabaseHelper.CONTACT,
+            /*DatabaseHelper.DONE,*/
+            /*DatabaseHelper.CONTACT,*/
             DatabaseHelper.ADDRESS,
-            DatabaseHelper.PHONE,
+            /*DatabaseHelper.PHONE,*/
         };
 
         final int[] to = new int[]{
             R.id.tv_titre,
             R.id.tv_description,
             R.id.tv_date,
-            R.id.tv_done,
-            R.id.tv_contact,
+            /*R.id.tv_done,*/
+            /*R.id.tv_contact,*/
             R.id.tv_address,
-            R.id.tv_phone,
+           /* R.id.tv_phone,*/
         };
 
         Cursor cursor = database.getAllRdvs();

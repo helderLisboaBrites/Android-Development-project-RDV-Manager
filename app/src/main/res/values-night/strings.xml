@@ -12,4 +12,5 @@
     <string name="TvNoItems">No Items Found</string>
     <string name="itemShare">Share</string>
     <string name="itemGoogleMaps">Google Maps</string>
+    <string name="makeCall">Call</string>
 </resources>

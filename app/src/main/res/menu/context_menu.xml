@@ -16,4 +16,9 @@
             android:title="@string/itemGoogleMaps"
             >
         </item>
+        <item
+            android:id="@+id/itemCall"
+            android:title="@string/makeCall"
+            >
+        </item>
 </menu>
