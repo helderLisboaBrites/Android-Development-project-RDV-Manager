@@ -200,7 +200,6 @@ public class RdvManagerDetailsFragment extends Fragment{
     }
 
     private void onSaveRdv() {
-        Log.d(TAG,"onSaveRdv");
         String title = etTitre.getText().toString();
         String description = etDescription.getText().toString();
         String contact = etContact.getText().toString();
