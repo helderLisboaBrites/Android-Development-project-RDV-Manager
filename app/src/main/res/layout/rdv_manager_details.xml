@@ -185,6 +185,45 @@
 
     </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/tvNotificationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvNotificationDate" />
+
+            <Button
+                android:id="@+id/btNotificationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:backgroundTint="#B4E1A9"
+                android:ems="10" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/tvNotificationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvNotificationTime" />
+
+            <Button
+                android:id="@+id/btNotificationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:backgroundTint="#B4E1A9"
+                android:ems="10" />
+        </TableRow>
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"

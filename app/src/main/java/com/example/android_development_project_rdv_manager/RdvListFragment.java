@@ -32,10 +32,7 @@ public class RdvListFragment extends ListFragment {
         database = new DatabaseHelper(getActivity());
         database.open();
 
-
     }
-
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
