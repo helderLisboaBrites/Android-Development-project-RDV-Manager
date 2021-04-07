@@ -1,10 +1,15 @@
 package com.example.android_development_project_rdv_manager;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.icu.util.ULocale;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,19 +17,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalField;
 import java.util.Calendar;
 
-public class RdvManagerDetailsFragment extends Fragment  {
+public class RdvManagerDetailsFragment extends Fragment{
 
     private Rdv currentRdv;
     private EditText etTitre ;
@@ -37,8 +51,15 @@ public class RdvManagerDetailsFragment extends Fragment  {
     private Switch switchState ;
     private Button btSave;
     private Button btCancel;
+    private ImageView btPhone;
     private boolean fromAdd;
     private DatabaseHelper database;
+
+    SimpleCursorAdapter adapter;
+    static final int LOADER_ID =1976;
+    private static final int PICK_CONTACT=122;
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    final String[] from =   new String[]{ContactsContract.Contacts.DISPLAY_NAME};
 
     private static final String TAG = "RdvManagerDetailsFragment";
 
@@ -69,6 +90,17 @@ public class RdvManagerDetailsFragment extends Fragment  {
         switchState =    (Switch)  view.findViewById(R.id.switchState);
         btSave = (Button) view.findViewById(R.id.button_save);
         btCancel = (Button) view.findViewById(R.id.button_cancel);
+        btPhone = (ImageButton) view.findViewById(R.id.button_phone);
+
+        btPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intent, PICK_CONTACT);
+            }
+        });
+
+
 
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,15 +145,23 @@ public class RdvManagerDetailsFragment extends Fragment  {
         }else{
             setRdv(new Rdv());
         }
+
+        requestPermissions();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.rdv_manager_details, container, false);
-
+        requestPermissions();
         return view;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        requestPermissions();
     }
 
     public void setRdv(Rdv rdv_saved) {
@@ -239,4 +279,60 @@ public class RdvManagerDetailsFragment extends Fragment  {
     }
 
 
+    public void requestPermissions()
+    {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS) !=
+                PackageManager.PERMISSION_GRANTED)
+        {
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(getActivity(), new String[]
+                    {Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
+        }
+        else
+        {
+           // getActivity().getSupportLoaderManager().initLoader(LOADER_ID,null,this);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                // Permission is granted
+                //getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+            } else {
+                Toast.makeText(getActivity(), "You must grant permission to display contacts", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (PICK_CONTACT):
+                if (resultCode == MainActivity.RESULT_OK) {
+                    Uri contactData = data.getData();
+                    Cursor c = getActivity().managedQuery(contactData, null, null, null, null);
+                    if (c.moveToFirst()) {
+                        String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+                    String hasPhone =
+                      c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+
+                    if (hasPhone.equalsIgnoreCase("1"))
+                    {
+                      Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id,null, null);
+                      phones.moveToFirst();
+                      String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                      etPhoneNum.setText(cNumber);
+                    }
+                    }
+
+             }
+        }
+    }
 }

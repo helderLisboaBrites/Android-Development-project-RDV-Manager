@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         database = new DatabaseHelper(this);
         database.open();
 
-        // feedDatabase();
+         //feedDatabase();
     }
 
     private void feedDatabase() {
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         rdv1.setDone(true);
         database.updateRdv(rdv1);
     }
-
 
 
 

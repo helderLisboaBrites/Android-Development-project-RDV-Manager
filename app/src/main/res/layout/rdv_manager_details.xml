@@ -138,6 +138,14 @@
             android:ems="10"
             android:inputType="phone"
             />
+        <ImageButton
+            android:id="@+id/button_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="center"
+            android:src="@drawable/phone_icon"
+            android:clickable="true"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
