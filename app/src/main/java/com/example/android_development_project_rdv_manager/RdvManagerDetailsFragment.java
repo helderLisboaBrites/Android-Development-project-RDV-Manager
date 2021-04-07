@@ -40,6 +40,9 @@ import java.util.Calendar;
 
 public class RdvManagerDetailsFragment extends Fragment{
 
+    public static final int FLAG_DATETIME_RDV = 0;
+    public static final int FLAG_DATETIME_NOTIFICATION = 1;
+
     private Rdv currentRdv;
     private EditText etTitre ;
     private Button btDate ;
@@ -49,6 +52,8 @@ public class RdvManagerDetailsFragment extends Fragment{
     private EditText etPhoneNum ;
     private EditText etDescription;
     private Switch switchState ;
+    private Button btNotificationDate ;
+    private Button btNotificationTime ;
     private Button btSave;
     private Button btCancel;
     private ImageView btPhone;
@@ -91,7 +96,8 @@ public class RdvManagerDetailsFragment extends Fragment{
         btSave = (Button) view.findViewById(R.id.button_save);
         btCancel = (Button) view.findViewById(R.id.button_cancel);
         btPhone = (ImageButton) view.findViewById(R.id.button_phone);
-
+        btNotificationDate =      (Button) view.findViewById(R.id.btNotificationDate);
+        btNotificationTime =      (Button) view.findViewById(R.id.btNotificationTime);
         btPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,14 +128,28 @@ public class RdvManagerDetailsFragment extends Fragment{
         btDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickDate(view);
+                pickDate(view, FLAG_DATETIME_RDV);
             }
         });
 
         btTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickTime(view);
+                pickTime(view, FLAG_DATETIME_RDV);
+            }
+        });
+
+        btNotificationDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickDate(view, FLAG_DATETIME_NOTIFICATION);
+            }
+        });
+
+        btNotificationTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickTime(view, FLAG_DATETIME_NOTIFICATION);
             }
         });
 
@@ -175,13 +195,14 @@ public class RdvManagerDetailsFragment extends Fragment{
         etAddress.setText(rdv_saved.getAddress());
         etPhoneNum.setText(rdv_saved.getPhone());
         switchState.isChecked();
+        btNotificationDate.setText(rdv_saved.getNotificationDateString());
+        btNotificationTime.setText(rdv_saved.getNotificationTimeString());
     }
 
     private void onSaveRdv() {
         Log.d(TAG,"onSaveRdv");
         String title = etTitre.getText().toString();
         String description = etDescription.getText().toString();
-        String date = btDate.getText().toString() + " " + btTime.getText();
         String contact = etContact.getText().toString();
         String address = etAddress.getText().toString();
         String phoneNum = etPhoneNum.getText().toString();
@@ -210,10 +231,9 @@ public class RdvManagerDetailsFragment extends Fragment{
                 RdvListFragment fragment1 = (RdvListFragment)getFragmentManager().findFragmentById(R.id.listFragment);
                 fragment1.loadData();
             }
-
-
         }
 
+        NotificationHelper.notify(getContext(), getView(), currentRdv);
     }
 
     private void onCancelRdv() {
@@ -221,25 +241,41 @@ public class RdvManagerDetailsFragment extends Fragment{
 
     }
 
-    public void pickDate(View view){
-        showDatePicker();
+    public void pickDate(View view, int flag){
+        showDatePicker(flag);
     }
 
-    private void showDatePicker() {
+    private void showDatePicker(int flag) {
 
         DatePickerFragment date = new DatePickerFragment();
 
         Bundle args = new Bundle();
-            args.putInt("year", currentRdv.getDatetime().getYear());
-            args.putInt("month", currentRdv.getDatetime().getMonthValue() - 1);
-            args.putInt("day", currentRdv.getDatetime().getDayOfMonth());
-
+        switch (flag) {
+            case RdvManagerDetailsFragment.FLAG_DATETIME_RDV :
+                args.putInt("year", currentRdv.getDatetime().getYear());
+                args.putInt("month", currentRdv.getDatetime().getMonthValue() - 1);
+                args.putInt("day", currentRdv.getDatetime().getDayOfMonth());
+                break;
+            case RdvManagerDetailsFragment.FLAG_DATETIME_NOTIFICATION :
+                args.putInt("year", currentRdv.getNotification().getYear());
+                args.putInt("month", currentRdv.getNotification().getMonthValue() - 1);
+                args.putInt("day", currentRdv.getNotification().getDayOfMonth());
+                break;
+        }
+        args.putInt("flag", flag);
 
         date.setArguments(args);
         date.setCallBack(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                RdvManagerDetailsFragment.this.onDateSet(datePicker, year, month, day);
+                switch (flag) {
+                    case RdvManagerDetailsFragment.FLAG_DATETIME_RDV :
+                        RdvManagerDetailsFragment.this.onDateSet(datePicker, year, month, day);
+                        break;
+                    case RdvManagerDetailsFragment.FLAG_DATETIME_NOTIFICATION :
+                        RdvManagerDetailsFragment.this.onNotificationDateSet(datePicker, year, month, day);
+                        break;
+                }
             }
         });
 
@@ -251,23 +287,43 @@ public class RdvManagerDetailsFragment extends Fragment{
         btDate.setText(currentRdv.getDateString());
     }
 
-    public void pickTime(View view){
-        showTimePicker();
+    public void onNotificationDateSet(DatePicker view, int hour, int minute, int second) {
+        currentRdv.setNotificationDate(hour, minute, second);
+        btNotificationDate.setText(currentRdv.getNotificationDateString());
     }
 
-    private void showTimePicker() {
+    public void pickTime(View view, int flag){
+        showTimePicker(flag);
+    }
+
+    private void showTimePicker(int flag) {
 
         TimePickerFragment time = new TimePickerFragment();
 
         Bundle args = new Bundle();
-            args.putInt("hour", currentRdv.getDatetime().getHour());
-            args.putInt("minute", currentRdv.getDatetime().getMinute());
+        switch (flag) {
+            case RdvManagerDetailsFragment.FLAG_DATETIME_RDV :
+                args.putInt("hour", currentRdv.getDatetime().getHour());
+                args.putInt("minute", currentRdv.getDatetime().getMinute());
+                break;
+            case RdvManagerDetailsFragment.FLAG_DATETIME_NOTIFICATION :
+                args.putInt("hour", currentRdv.getNotification().getHour());
+                args.putInt("minute", currentRdv.getNotification().getMinute());
+                break;
+        }
 
         time.setArguments(args);
         time.setCallBack(new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                RdvManagerDetailsFragment.this.onTimeSet(timePicker, hour, minute);
+                switch (flag) {
+                    case RdvManagerDetailsFragment.FLAG_DATETIME_RDV :
+                        RdvManagerDetailsFragment.this.onTimeSet(timePicker, hour, minute);
+                        break;
+                    case RdvManagerDetailsFragment.FLAG_DATETIME_NOTIFICATION :
+                        RdvManagerDetailsFragment.this.onNotificationTimeSet(timePicker, hour, minute);
+                        break;
+                }
             }
         });
 
@@ -277,6 +333,11 @@ public class RdvManagerDetailsFragment extends Fragment{
     public void onTimeSet(TimePicker view, int hour, int minute) {
         currentRdv.setTime(hour, minute);
         btTime.setText(currentRdv.getTimeString());
+    }
+
+    public void onNotificationTimeSet(TimePicker view, int hour, int minute) {
+        currentRdv.setNotificationTime(hour, minute);
+        btNotificationTime.setText(currentRdv.getNotificationTimeString());
     }
 
 

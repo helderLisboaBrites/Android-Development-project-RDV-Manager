@@ -22,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String CONTACT = "contact";
 	public static final String ADDRESS = "address";
 	public static final String PHONE = "phone";
+	public static final String NOTIFICATION = "date";
 
 	private static final String DB_NAME = "RDVManager.DB";
 
@@ -43,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			"%s TEXT NOT NULL, " +
 			"%s TEXT,  " +
 			"%s TEXT" +
+			"%s TEXT" +
 			");",
 			TABLE_NAME,
 			_ID,
@@ -52,7 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			DONE,
 			CONTACT,
 			ADDRESS,
-			PHONE
+			PHONE,
+			NOTIFICATION
 		));
 	}
 
@@ -84,12 +87,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		content.put(CONTACT, rdv.getContact());
 		content.put(ADDRESS, rdv.getAddress());
 		content.put(PHONE, rdv.getPhone());
+		content.put(NOTIFICATION, rdv.getNotificationString());
 
 		return content;
 	}
 
 	public Cursor getAllRdvs() {
-		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE};
+		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE, NOTIFICATION};
 
 		Cursor cursor = database.query(
 			TABLE_NAME,
@@ -127,7 +131,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public Rdv getRdv(long id) {
-		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE};
+		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE, NOTIFICATION};
 		String[] selectionArgs = {Double.toString(id)};
 
 		Cursor cursor = database.query(
@@ -155,7 +159,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			cursor.getInt(cursor.getColumnIndex(DONE)) != 0,
 			cursor.getString(cursor.getColumnIndex(CONTACT)),
 			cursor.getString(cursor.getColumnIndex(ADDRESS)),
-			cursor.getString(cursor.getColumnIndex(PHONE))
+			cursor.getString(cursor.getColumnIndex(PHONE)),
+			cursor.getString(cursor.getColumnIndex(NOTIFICATION))
 			);
 
 		return rdv;
