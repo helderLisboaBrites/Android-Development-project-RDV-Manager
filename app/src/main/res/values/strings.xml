@@ -17,6 +17,6 @@
     <string name="itemShare">Share</string>
     <string name="itemGoogleMaps">Google Maps</string>
     <string name="makeCall">Call</string>
-    <string name="tvNotificationDate">tvNotificationDate</string>
-    <string name="tvNotificationTime">tvNotificationTime</string>
+    <string name="tvNotificationDate">Notification Date</string>
+    <string name="tvNotificationTime">Notification Time</string>
 </resources>

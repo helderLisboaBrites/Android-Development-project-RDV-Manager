@@ -14,8 +14,7 @@
     <string name="TvNoItems">Aucun Item trouvé</string>
     <string name="itemShare">Partager</string>
     <string name="itemGoogleMaps">Google Maps</string>
-    <string name="makeCall">Call</string>
-    <string name="tvNotificationDate">tvNotificationDate</string>
-    <string name="tvNotificationTime">tvNotificationTime</string>
+    <string name="tvNotificationDate">Date de notification</string>
+    <string name="tvNotificationTime">Heure de notification</string>
     <string name="makeCall">Téléphoner</string>
 </resources>
