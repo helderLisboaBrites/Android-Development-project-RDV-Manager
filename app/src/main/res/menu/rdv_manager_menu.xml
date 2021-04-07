@@ -6,5 +6,7 @@
         android:id="@+id/add_celebrity"
         android:title="@string/add"
         android:icon="@drawable/add_tab_icon"
+        android:color="@color/white"
+        
         app:showAsAction="ifRoom" />
 </menu>
