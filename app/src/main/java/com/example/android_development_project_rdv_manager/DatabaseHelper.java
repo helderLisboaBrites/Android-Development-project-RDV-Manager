@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String CONTACT = "contact";
 	public static final String ADDRESS = "address";
 	public static final String PHONE = "phone";
-	public static final String NOTIFICATION = "date";
+	public static final String NOTIFICATION = "notification";
 
 	private static final String DB_NAME = "RDVManager.DB";
 
@@ -43,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			"%s INTEGER, " +
 			"%s TEXT NOT NULL, " +
 			"%s TEXT,  " +
-			"%s TEXT" +
+			"%s TEXT, " +
 			"%s TEXT" +
 			");",
 			TABLE_NAME,
@@ -66,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public void reset() {
-		onUpgrade(database, 0, 0);
+		onUpgrade(database, 0, 1);
 	}
 
 	public void open() throws SQLException {

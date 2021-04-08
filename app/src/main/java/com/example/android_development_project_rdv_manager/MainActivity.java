@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         database.open();
 
         // database.reset();
+
         // feedDatabase();
 
         NotificationHelper.initialize(this);
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void feedDatabase() {
         database.reset();
+
         database.removeAllRdvs();
 
         Rdv rdv1 = new Rdv(-1, "banque", "récupérer chéquier", "2021-03-28 20:00",

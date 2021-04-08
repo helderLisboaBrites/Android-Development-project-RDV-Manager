@@ -59,8 +59,6 @@ public class RdvListFragment extends ListFragment {
         }
     }
 
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -71,8 +69,6 @@ public class RdvListFragment extends ListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-        // loadData();
     }
 
 
@@ -138,12 +134,14 @@ public class RdvListFragment extends ListFragment {
         Cursor cursor = database.getAllRdvs();
 
         cursor.moveToFirst();
+
+        rdvIds.clear();
         while(!cursor.isAfterLast()) {
             rdvIds.add(cursor.getInt(cursor.getColumnIndex(DatabaseHelper._ID))); //add the item
             cursor.moveToNext();
         }
 
-        SimpleCursorAdapter adapter= new SimpleCursorAdapter(getActivity(), R.layout.custom_list_rdv, cursor, from, to, 0);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.custom_list_rdv, cursor, from, to, 0);
 
         adapter.notifyDataSetChanged();
 

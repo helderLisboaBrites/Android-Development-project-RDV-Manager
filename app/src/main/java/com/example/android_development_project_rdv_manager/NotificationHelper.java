@@ -54,7 +54,7 @@ public class NotificationHelper {
 			context, REQUEST_CODE, notifyIntent, PendingIntent.FLAG_CANCEL_CURRENT
 		);
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, milli, pendingIntent);
+		alarmManager.setExact(AlarmManager.RTC_WAKEUP, milli, pendingIntent);
 	}
 
 	 public static class MyBroadcastReceiver extends BroadcastReceiver {

@@ -76,8 +76,8 @@ public class Rdv implements Parcelable {
 	public String getNotificationTimeString() { return notification.format(DateTimeFormatter.ofPattern("HH:mm")); }
 	public void setNotification(LocalDateTime datetime) { this.notification = datetime; }
 	public void setNotificationString(String datetime) { this.notification = LocalDateTime.parse(datetime, formatter); }
-	public void setNotificationDate(int year, int month, int day) { this.notification = LocalDateTime.of(year, month, day, notification.getHour(), notification.getMinute()); }
-	public void setNotificationTime(int hour, int minute) { this.notification = LocalDateTime.of(notification.getYear(), notification.getMonthValue(), notification.getDayOfMonth(), hour, minute); }
+	public void setNotificationDate(int year, int month, int day) { this.notification = LocalDateTime.of(year, month, day, this.notification.getHour(), this.notification.getMinute()); }
+	public void setNotificationTime(int hour, int minute) { this.notification = LocalDateTime.of(this.notification.getYear(), this.notification.getMonthValue(), this.notification.getDayOfMonth(), hour, minute); }
 
 	@SuppressLint("DefaultLocale") // ?
 	@Override
