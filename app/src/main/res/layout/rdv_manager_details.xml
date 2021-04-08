@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
 
-    android:stretchColumns="1,2"
-    android:layout_gravity="center_horizontal|top"
-    android:gravity="center_horizontal|top"
-    tools:context=".RdvManagerDetailsActivity">
-
+    >
+    <TableLayout
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1,2"
+        android:layout_gravity="center_horizontal|top"
+        android:gravity="center_horizontal|top">
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -54,14 +56,14 @@
             android:layout_height="wrap_content"
             android:text="@string/tvDate" />
 
-        <EditText
-            android:id="@+id/etDate"
+        <Button
+            android:id="@+id/btDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_span="3"
-            android:ems="10"
-            android:inputType="date"
-            />
+            android:backgroundTint="#B4E1A9"
+            android:ems="10" />
+
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
@@ -73,14 +75,13 @@
             android:layout_height="wrap_content"
             android:text="@string/tvTime" />
 
-        <EditText
-            android:id="@+id/etTime"
+        <Button
+            android:id="@+id/btTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_span="3"
-            android:ems="10"
-            android:inputType="time"
-            />
+            android:backgroundTint="#B4E1A9"
+            android:ems="10" />
     </TableRow>
 
 
@@ -99,27 +100,10 @@
             android:layout_height="wrap_content"
             android:layout_span="3"
             android:ems="10"
-            android:inputType="date"
+            android:inputType="text"
             />
     </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/tvAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tvAddress" />
 
-        <EditText
-            android:id="@+id/etAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_span="3"
-            android:ems="10"
-            android:inputType="date"
-            />
-    </TableRow>
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -136,6 +120,51 @@
             android:layout_span="3"
             android:ems="10"
             android:inputType="phone"
+            />
+        <ImageButton
+            android:id="@+id/button_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="center"
+            android:src="@drawable/phone_icon"
+            android:clickable="true"/>
+    </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvAddress" />
+
+            <EditText
+                android:id="@+id/etAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:ems="10"
+                android:inputType="text"
+                />
+        </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tvDescription" />
+
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_span="3"
+            android:lines="4"
+            android:ems="10"
+            android:inputType="textMultiLine"
             />
     </TableRow>
     <TableRow
@@ -157,6 +186,45 @@
 
     </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/tvNotificationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvNotificationDate" />
+
+            <Button
+                android:id="@+id/btNotificationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:backgroundTint="#B4E1A9"
+                android:ems="10" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/tvNotificationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvNotificationTime" />
+
+            <Button
+                android:id="@+id/btNotificationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:backgroundTint="#B4E1A9"
+                android:ems="10" />
+        </TableRow>
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -171,7 +239,7 @@
             android:layout_column="1"
             android:layout_gravity="center"
             android:text="@string/save"
-            android:onClick="onSaveRdv"/>
+            android:clickable="true"/>
 
         <Button
             android:id="@+id/button_cancel"
@@ -179,8 +247,7 @@
             android:layout_height="wrap_content"
             android:layout_column="2"
             android:layout_gravity="center|left"
-            android:onClick="onCancelClick"
             android:text="@string/cancel" />
     </TableRow>
-
-</TableLayout>
+    </TableLayout>
+</ScrollView>

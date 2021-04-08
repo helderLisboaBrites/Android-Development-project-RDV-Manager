@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources>    <string name="app_name">RDV-Manager</string>
+    <string name="tvNoItems">Aucun RDV</string>
+    <string name="add">Ajouter</string>
     <string name="tvTitre">Titre</string>
     <string name="tvDate">Date</string>
-    <string name="tvTime">Hour</string>
+    <string name="tvTime">Heure</string>
     <string name="tvContact">Contact</string>
-    <string name="tvAddress">Address</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
-    <string name="tvPhoneNum">Phone Number</string>
-    <string name="tvState">State</string>
+    <string name="tvAddress">Adresse</string>
+    <string name="save">Enregistrer</string>
+    <string name="cancel">Annuler</string>
+    <string name="tvPhoneNum">Numero de telephone </string>
+    <string name="tvState">Etat</string>
+    <string name="delete">Effacer</string>
+    <string name="tvDescription">Description</string>
+    <string name="TvNoItems">Aucun Item trouvé</string>
+    <string name="itemShare">Partager</string>
+    <string name="itemGoogleMaps">Google Maps</string>
+    <string name="tvNotificationDate">Date de notification</string>
+    <string name="tvNotificationTime">Heure de notification</string>
+    <string name="makeCall">Téléphoner</string>
 </resources>

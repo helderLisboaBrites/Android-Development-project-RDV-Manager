@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.time.LocalDateTime;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private SQLiteDatabase database;
 
@@ -17,6 +19,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String DESCRIPTION = "description";
 	public static final String DATE = "date";
 	public static final String DONE = "done";
+	public static final String CONTACT = "contact";
+	public static final String ADDRESS = "address";
+	public static final String PHONE = "phone";
+	public static final String NOTIFICATION = "notification";
 
 	private static final String DB_NAME = "RDVManager.DB";
 
@@ -34,14 +40,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			"%s TEXT NOT NULL, " +
 			"%s TEXT NOT NULL, " +
 			"%s TEXT NOT NULL, " +
-			"%s INTEGER" +
+			"%s INTEGER, " +
+			"%s TEXT NOT NULL, " +
+			"%s TEXT,  " +
+			"%s TEXT, " +
+			"%s TEXT" +
 			");",
 			TABLE_NAME,
 			_ID,
 			TITLE,
 			DESCRIPTION,
 			DATE,
-			DONE
+			DONE,
+			CONTACT,
+			ADDRESS,
+			PHONE,
+			NOTIFICATION
 		));
 	}
 
@@ -49,6 +63,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 		onCreate(db);
+	}
+
+	public void reset() {
+		onUpgrade(database, 0, 1);
 	}
 
 	public void open() throws SQLException {
@@ -64,14 +82,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		content.put(TITLE, rdv.getTitle());
 		content.put(DESCRIPTION, rdv.getDescription());
-		content.put(DATE, rdv.getDate());
-		content.put(DONE, rdv.isDone()); // int ?
+		content.put(DATE, rdv.getDatetimeString());
+		content.put(DONE, rdv.isDone());
+		content.put(CONTACT, rdv.getContact());
+		content.put(ADDRESS, rdv.getAddress());
+		content.put(PHONE, rdv.getPhone());
+		content.put(NOTIFICATION, rdv.getNotificationString());
 
 		return content;
 	}
 
 	public Cursor getAllRdvs() {
-		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE};
+		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE, NOTIFICATION};
 
 		Cursor cursor = database.query(
 			TABLE_NAME,
@@ -103,8 +125,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		database.update(TABLE_NAME, content, _ID+"=?", args);
 	}
 
-	public void removeRdv(int id) {
-		String[] args = {Integer.toString(id)};
+	public void removeRdv(long id) {
+		String[] args = {Double.toString(id)};
 		database.delete(TABLE_NAME, _ID+"=?", args);
+	}
+
+	public Rdv getRdv(long id) {
+		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE, NOTIFICATION};
+		String[] selectionArgs = {Double.toString(id)};
+
+		Cursor cursor = database.query(
+			TABLE_NAME,
+			projection,
+			_ID+"=?",
+			selectionArgs,
+			null,
+			null,
+			null,
+			null
+		);
+
+		if(cursor == null) {
+			return null;
+		}
+
+		cursor.moveToFirst();
+
+		Rdv rdv = new Rdv(
+			cursor.getInt(cursor.getColumnIndex(_ID)),
+			cursor.getString(cursor.getColumnIndex(TITLE)),
+			cursor.getString(cursor.getColumnIndex(DESCRIPTION)),
+			cursor.getString(cursor.getColumnIndex(DATE)),
+			cursor.getInt(cursor.getColumnIndex(DONE)) != 0,
+			cursor.getString(cursor.getColumnIndex(CONTACT)),
+			cursor.getString(cursor.getColumnIndex(ADDRESS)),
+			cursor.getString(cursor.getColumnIndex(PHONE)),
+			cursor.getString(cursor.getColumnIndex(NOTIFICATION))
+			);
+
+		return rdv;
 	}
 }

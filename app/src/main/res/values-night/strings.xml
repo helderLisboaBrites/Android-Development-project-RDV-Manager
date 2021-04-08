@@ -9,4 +9,10 @@
     <string name="cancel">Cancel</string>
     <string name="tvPhoneNum">Phone Number</string>
     <string name="tvState">State</string>
+    <string name="TvNoItems">No Items Found</string>
+    <string name="itemShare">Share</string>
+    <string name="itemGoogleMaps">Google Maps</string>
+    <string name="makeCall">Call</string>
+    <string name="tvNotificationDate">tvNotificationDate</string>
+    <string name="tvNotificationTime">tvNotificationTime</string>
 </resources>
