@@ -156,7 +156,15 @@ public class RdvManagerDetailsFragment extends Fragment{
 
         //switchState.setOnCheckedChangeListener((buttonView, isChecked) -> );
 
+        requestPermissions();
+
         Intent intent = getActivity().getIntent();
+
+        if(!intent.hasExtra("fromAdd")) {
+            enable(false);
+            return;
+        }
+
         fromAdd = intent.getBooleanExtra("fromAdd",false);
         Bundle extras = intent.getExtras();
         if (!fromAdd && extras != null) {
@@ -165,8 +173,6 @@ public class RdvManagerDetailsFragment extends Fragment{
         }else{
             setRdv(new Rdv());
         }
-
-        requestPermissions();
     }
 
     @Nullable
@@ -197,6 +203,8 @@ public class RdvManagerDetailsFragment extends Fragment{
         switchState.isChecked();
         btNotificationDate.setText(rdv_saved.getNotificationDateString());
         btNotificationTime.setText(rdv_saved.getNotificationTimeString());
+
+        enable(true);
     }
 
     private void onSaveRdv() {
@@ -233,11 +241,18 @@ public class RdvManagerDetailsFragment extends Fragment{
         }
 
         NotificationHelper.notify(getContext(), getView(), currentRdv);
+
+        enable(false);
     }
 
     private void onCancelRdv() {
-        getActivity().finish();
-
+        RdvListFragment fragment = (RdvListFragment)getFragmentManager().findFragmentById(R.id.listFragment);
+        if(fragment != null && fragment.isInLayout()) {
+            enable(false);
+        }
+        else {
+            getActivity().finish();
+        }
     }
 
     public void pickDate(View view, int flag){
@@ -395,6 +410,34 @@ public class RdvManagerDetailsFragment extends Fragment{
                     }
 
              }
+        }
+    }
+
+    public void enable(boolean value) {
+        etTitre.setEnabled(value);
+        btDate.setEnabled(value);
+        btTime.setEnabled(value);
+        etDescription.setEnabled(value);
+        etContact.setEnabled(value);
+        etAddress.setEnabled(value);
+        etPhoneNum.setEnabled(value);
+        switchState.setEnabled(value);
+        btNotificationDate.setEnabled(value);
+        btNotificationTime.setEnabled(value);
+        btSave.setEnabled(value);
+        btCancel.setEnabled(value);
+
+        if(!value) {
+            etTitre.setText("");
+            btDate.setText("");
+            btTime.setText("");
+            etDescription.setText("");
+            etContact.setText("");
+            etAddress.setText("");
+            etPhoneNum.setText("");
+            switchState.setText("");
+            btNotificationDate.setText("");
+            btNotificationTime.setText("");
         }
     }
 }
