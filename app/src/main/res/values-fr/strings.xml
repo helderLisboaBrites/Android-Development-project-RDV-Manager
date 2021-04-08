@@ -19,4 +19,5 @@
     <string name="tvNotificationDate">Date de notification</string>
     <string name="tvNotificationTime">Heure de notification</string>
     <string name="makeCall">Téléphoner</string>
+    <string name="tvSpiner">Categorie</string>
 </resources>

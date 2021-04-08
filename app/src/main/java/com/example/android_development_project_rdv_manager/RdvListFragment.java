@@ -119,6 +119,7 @@ public class RdvListFragment extends ListFragment {
             /*DatabaseHelper.CONTACT,*/
             DatabaseHelper.ADDRESS,
             /*DatabaseHelper.PHONE,*/
+                DatabaseHelper.IDIMG
         };
 
         final int[] to = new int[]{
@@ -129,6 +130,7 @@ public class RdvListFragment extends ListFragment {
             /*R.id.tv_contact,*/
             R.id.tv_address,
            /* R.id.tv_phone,*/
+                R.id.iv_rdv_theme
         };
 
         Cursor cursor = database.getAllRdvs();
