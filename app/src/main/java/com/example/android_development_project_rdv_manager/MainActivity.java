@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         database = new DatabaseHelper(this);
         database.open();
 
-        // database.reset();
+         //database.reset();
 
         // feedDatabase();
 
