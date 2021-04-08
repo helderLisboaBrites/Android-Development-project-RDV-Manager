@@ -8,6 +8,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -44,29 +45,6 @@ public class MainActivity extends AppCompatActivity {
         NotificationHelper.initialize(this);
     }
 
-    private void feedDatabase() {
-        database.reset();
-
-        database.removeAllRdvs();
-
-        Rdv rdv1 = new Rdv(-1, "banque", "récupérer chéquier", "2021-03-28 20:00",
-            false, "formosa", "", "", "2021-03-29 18:30");
-        Rdv rdv2 = new Rdv(-1, "éducatrice", "agility", "2021-03-27 10:00",
-            false, "séverine", "", "", "2021-03-27 09:30");
-        Rdv rdv3 = new Rdv(-1, "dentiste", "dents de sagesses", "2021-05-14 09:30",
-            false, "lemesre", "", "", "2021-05-13 19:30");
-
-        database.addRdv(rdv1);
-        database.addRdv(rdv2);
-        database.addRdv(rdv3);
-
-        database.removeRdv(rdv3.getId());
-
-        rdv1.setDone(true);
-        database.updateRdv(rdv1);
-    }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.rdv_manager_menu, menu);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -88,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
             }
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
 }
