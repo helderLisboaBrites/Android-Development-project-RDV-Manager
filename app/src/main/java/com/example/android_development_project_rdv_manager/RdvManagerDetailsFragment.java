@@ -319,8 +319,8 @@ public class RdvManagerDetailsFragment extends Fragment{
         date.show(getActivity().getSupportFragmentManager(),"Date Picker");
     }
 
-    public void onDateSet(DatePicker view, int hour, int minute, int second) {
-        currentRdv.setDate(hour, minute, second);
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        currentRdv.setDate(year, month + 1, day);
         btDate.setText(currentRdv.getDateString());
     }
 
