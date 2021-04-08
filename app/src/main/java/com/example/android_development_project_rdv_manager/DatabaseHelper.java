@@ -23,6 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String ADDRESS = "address";
 	public static final String PHONE = "phone";
 	public static final String NOTIFICATION = "notification";
+	public static final String IDIMG = "idImg";
 
 	private static final String DB_NAME = "RDVManager.DB";
 
@@ -44,6 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			"%s TEXT NOT NULL, " +
 			"%s TEXT,  " +
 			"%s TEXT, " +
+			"%s TEXT," +
 			"%s TEXT" +
 			");",
 			TABLE_NAME,
@@ -55,7 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			CONTACT,
 			ADDRESS,
 			PHONE,
-			NOTIFICATION
+			NOTIFICATION,
+			IDIMG
 		));
 	}
 
@@ -88,12 +91,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		content.put(ADDRESS, rdv.getAddress());
 		content.put(PHONE, rdv.getPhone());
 		content.put(NOTIFICATION, rdv.getNotificationString());
+		content.put(IDIMG, rdv.getIdImg());
 
 		return content;
 	}
 
 	public Cursor getAllRdvs() {
-		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE, NOTIFICATION};
+		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE, NOTIFICATION, IDIMG};
 
 		Cursor cursor = database.query(
 			TABLE_NAME,
@@ -104,6 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			null,
 			DATE + " ASC",
 			null
+
 		);
 
 		return cursor;
@@ -131,7 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public Rdv getRdv(long id) {
-		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE, NOTIFICATION};
+		String[] projection = {_ID, TITLE, DESCRIPTION, DATE, DONE, CONTACT, ADDRESS, PHONE, NOTIFICATION,IDIMG};
 		String[] selectionArgs = {Double.toString(id)};
 
 		Cursor cursor = database.query(
@@ -160,7 +165,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			cursor.getString(cursor.getColumnIndex(CONTACT)),
 			cursor.getString(cursor.getColumnIndex(ADDRESS)),
 			cursor.getString(cursor.getColumnIndex(PHONE)),
-			cursor.getString(cursor.getColumnIndex(NOTIFICATION))
+			cursor.getString(cursor.getColumnIndex(NOTIFICATION)),
+				cursor.getInt(cursor.getColumnIndex(IDIMG))
 			);
 
 		return rdv;

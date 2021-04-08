@@ -14,12 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -58,6 +60,7 @@ public class RdvManagerDetailsFragment extends Fragment{
     private Button btCancel;
     private ImageView btPhone;
     private boolean fromAdd;
+    private Spinner spinner;
     private DatabaseHelper database;
 
     SimpleCursorAdapter adapter;
@@ -98,6 +101,15 @@ public class RdvManagerDetailsFragment extends Fragment{
         btPhone = (ImageButton) view.findViewById(R.id.button_phone);
         btNotificationDate =      (Button) view.findViewById(R.id.btNotificationDate);
         btNotificationTime =      (Button) view.findViewById(R.id.btNotificationTime);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+
+        ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource(getActivity(),R.array.img_spiner,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+
+
         btPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +123,6 @@ public class RdvManagerDetailsFragment extends Fragment{
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("--------------------------------------------------------------");
                 Log.d(TAG,"onSaveRdv");
                 onSaveRdv();
             }
@@ -222,6 +233,18 @@ public class RdvManagerDetailsFragment extends Fragment{
         currentRdv.setAddress(address);
         currentRdv.setPhone(phoneNum);
         currentRdv.setDone(done);
+
+        switch(spinner.getSelectedItemPosition()){
+            case 0:
+                currentRdv.setIdImg(R.drawable.classic_rdv);
+                break;
+            case 1:
+                currentRdv.setIdImg(R.drawable.medical_rdv);
+                break;
+            case 2:
+                currentRdv.setIdImg(R.drawable.work_image);
+                break;
+        }
 
         if(fromAdd){ // pour ajouter un rdv
             database.addRdv(currentRdv);
@@ -426,7 +449,7 @@ public class RdvManagerDetailsFragment extends Fragment{
         btNotificationTime.setEnabled(value);
         btSave.setEnabled(value);
         btCancel.setEnabled(value);
-
+        spinner.setEnabled(value);
         if(!value) {
             etTitre.setText("");
             btDate.setText("");

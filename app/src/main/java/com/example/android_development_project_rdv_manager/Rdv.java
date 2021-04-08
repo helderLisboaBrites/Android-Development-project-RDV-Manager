@@ -20,10 +20,11 @@ public class Rdv implements Parcelable {
 	private String address;
 	private String phone;
 	private LocalDateTime notification;
+	private int idImg;
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-	public Rdv(int id, String title, String description, String datetime, boolean done, String contact, String address, String phone, String notification) {
+	public Rdv(int id, String title, String description, String datetime, boolean done, String contact, String address, String phone, String notification, int idImage) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -33,10 +34,12 @@ public class Rdv implements Parcelable {
 		this.address = address;
 		this.phone = phone;
 		this.notification = LocalDateTime.parse(notification, formatter);
+		this.idImg = idImage;
 	}
 
 	public Rdv (){
-		this(-1, "", "", LocalDateTime.now().format(formatter), false, "", "", "", LocalDateTime.now().format(formatter));
+		this(-1, "", "", LocalDateTime.now().format(formatter), false, "", "", "", LocalDateTime.now().format(formatter),R.drawable.classic_rdv);
+
 
 	};
 
@@ -105,6 +108,7 @@ public class Rdv implements Parcelable {
 		this.address = parcel.readString();
 		this.phone = parcel.readString();
 		this.notification = LocalDateTime.parse(parcel.readString());
+		this.idImg = parcel.readInt();
 	}
 
 	@Override
@@ -123,6 +127,7 @@ public class Rdv implements Parcelable {
 		dest.writeString(this.address);
 		dest.writeString(this.phone);
 		dest.writeString(this.notification.toString());
+		dest.writeInt(this.idImg);
 	}
 
 	public static final Parcelable.Creator<Rdv> CREATOR = new Parcelable.Creator<Rdv>() {
@@ -136,4 +141,12 @@ public class Rdv implements Parcelable {
 			return new Rdv[size];
 		}
 	};
+
+	public int getIdImg() {
+		return idImg;
+	}
+
+	public void setIdImg(int pIdImg) {
+		idImg = pIdImg;
+	}
 }

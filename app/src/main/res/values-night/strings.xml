@@ -15,4 +15,5 @@
     <string name="makeCall">Call</string>
     <string name="tvNotificationDate">tvNotificationDate</string>
     <string name="tvNotificationTime">tvNotificationTime</string>
+    <string name="tvSpiner">Categorie</string>
 </resources>
